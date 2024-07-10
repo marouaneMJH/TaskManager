@@ -34,7 +34,7 @@ const AddTask: React.FC = () => {
     const [addCondition, setAddCondition] = useState(false);
 
     return (
-        <StyledAddTask onClick={() => setAddCondition(true)} onMouseLeave={() => setAddCondition(true)}>
+        <StyledAddTask onClick={() => setAddCondition(true)} onMouseLeave={() => setAddCondition(false)}>
             {/*todo make it false */} 
             {addCondition ? (
                 <AddTaskCard />

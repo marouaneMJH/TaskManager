@@ -51,7 +51,7 @@ const Tasks: React.FC<{ title: string;background:string }> = ({ title, backgroun
         return () => {
             isMounted = false;
         };
-    }, []);// todo fetching data when somme thing add task
+    }, []);// todo fetching data when somme thing add task(post request)
 
     return (
         <>
