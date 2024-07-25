@@ -4,7 +4,4 @@ interface ITaskData {
     description: string;
 }
 
-
-
-
 export default ITaskData;

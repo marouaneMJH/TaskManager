@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Column from "./Column";
 
@@ -20,7 +20,10 @@ const ColumnsContainer: React.FC<{ title: string }> = ({ title }) => {
      * @var string title
      * @var string <title of columns>
      */
-    // const [columnName, setColumnName] = useState<string>([]);
+    const [, setColumnName] = useState<string>([]);
+
+
+
 
     return (
         <>
