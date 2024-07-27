@@ -20,7 +20,7 @@ const ColumnsContainer: React.FC<{ title: string }> = ({ title }) => {
      * @var string title
      * @var string <title of columns>
      */
-    const [, setColumnName] = useState<string>([]);
+    // const [, setColumnName] = useState<string>([]);
 
 
 

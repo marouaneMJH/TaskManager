@@ -1,5 +1,5 @@
 import pg from "pg";
-import db from "./ConnectClient.js";
+import db from "../Config/PgConfig.js";
 
 const GetTaskFromDB = async () => {
     try {

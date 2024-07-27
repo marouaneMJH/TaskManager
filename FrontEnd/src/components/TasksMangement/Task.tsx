@@ -64,6 +64,7 @@ const Task: React.FC<{ props: TaskData |undefined }> = ({ props }) => {
                 <Cup />
                 <h3>Error</h3>
             </StyledTask>
+// const StyledTask = styled.div<StyledProp>`
         );
 };
 

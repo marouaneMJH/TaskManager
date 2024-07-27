@@ -1,11 +1,11 @@
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
-import pg from "pg";
+// import pg from "pg";
 import cors from "cors";
 import ITask from "./Interfaces/ITask.js";
 import GetTaskFromDB from "./Controllers/GetTaskFromDB.js";
-import db from "./Controllers/ConnectClient.js";
-import { title } from "process";
+import db from "./Config/PgConfig.js";
+// import { title } from "process";
 
 // import path from "path";
 
