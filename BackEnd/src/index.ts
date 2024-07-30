@@ -1,16 +1,22 @@
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
-// import pg from "pg";
 import cors from "cors";
-import ITask from "./Interfaces/ITask.js";
-import GetTaskFromDB from "./Controllers/GetTaskFromDB.js";
-import db from "./Config/PgConfig.js";
-// import { title } from "process";
+import path from "path";
+import { fileURLToPath } from 'url';
 
-// import path from "path";
+import GetTaskFromDB from "./Controllers/GetTaskFromDB.js";
+import ListsTitle from "./Controllers/ListsTitle.js";
+import db from "./Config/PgConfig.js";
 
 const app = express();
 const port = 3000;
+
+// Get the directory name of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the "Public" directory
+app.use(express.static(path.join(__dirname, "./../Public")));
 
 // Middleware
 app.use(cors());
@@ -47,12 +53,33 @@ app.post("/", async (req: Request, res: Response) => {
     // res.redirect("http://localhost:5173/");
 });
 
-app.get("/task1", async(req: Request, res: Response) => {
+app.get("/task1", async (req: Request, res: Response) => {
     const result = await GetTaskFromDB();
-    console.log(result)
+    console.log(result);
     res.json(result);
 });
 
+app.get("/lists", async (req: Request, res: Response) => {
+    const result = await ListsTitle("SELECT listname, listID FROM lists;");
+    console.log(result);
+    res.json(result);
+});
+app.get("/cards/:id", async (req: Request, res: Response) => {
+    const listID = parseInt(req.params.id);
+
+    try {
+        const result = await ListsTitle(
+            `SELECT cardTitle FROM cards WHERE listID=${req.params.id};`
+        );
+        res.json(result);
+    } catch {
+        res.redirect("/404");
+    }
+});
+
+app.get("/404", (req: Request, res: Response) => {
+    res.status(404).sendFile(path.join(__dirname, "./../Public", "error.html"));
+});
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
