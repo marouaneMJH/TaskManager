@@ -3,10 +3,10 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+
+
 import cardRoutes from "./Routes/CardRoutes.js";
 import listRoutes from "./Routes/ListRoutes.js";
-
-import GetTaskFromDB from "./Controllers/GetTaskFromDB.js";
 import db from "./Config/PgConfig.js";
 
 const app = express();
@@ -19,7 +19,6 @@ const __dirname = path.dirname(__filename);
 // Serve static files from the "Public" directory
 app.use(express.static(path.join(__dirname, "./../Public")));
 
-// Routes
 
 // Middleware
 app.use(cors());
@@ -29,7 +28,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Connect to DB
 db.connect();
 
+// Routes
 app.use("/", cardRoutes, listRoutes);
+
+//todo delete this fn
 //adding the data to DB to Tasks table
 app.post("/", async (req: Request, res: Response) => {
     const data = req.body;
@@ -55,12 +57,6 @@ app.post("/", async (req: Request, res: Response) => {
         console.log("Missing title or description");
     }
     // res.redirect("http://localhost:5173/");
-});
-
-app.get("/task1", async (req: Request, res: Response) => {
-    const result = await GetTaskFromDB();
-    console.log(result);
-    res.json(result);
 });
 
 app.get("/404", (req: Request, res: Response) => {

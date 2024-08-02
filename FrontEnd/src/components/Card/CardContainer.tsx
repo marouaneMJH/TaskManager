@@ -34,6 +34,7 @@ const CardContainer: React.FC<{ listID: number }> = ({ listID }) => {
 
         fetchLists();
     }, []);
+    console.log(cards);
     return (
         <StyledCardContainer>
             {cards.length > 0 ? (
