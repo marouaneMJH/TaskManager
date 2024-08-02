@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import TaskData from "./../../Interfaces/ITaskData";
+import Comment from "./../../Interfaces/ICommnent";
 import BigCard from "./BigCard";
+import axios from "axios";
+
+type ICardInformation = TaskData & Comment;
 
 const StyledCard = styled.li`
     background-color: #0f1e0f;
@@ -14,13 +19,30 @@ const StyledCard = styled.li`
     }
 `;
 
-const Card: React.FC<{ title: string }> = ({ title }) => {
+const Card: React.FC<ICardInformation> = ({ id, title }) => {
     const [click, setClick] = useState<boolean>(false);
+    const [cardInfos, setCardInfos] = useState<ICardInformation>({});
+
+    //fetch card information
+
+
+    useEffect(() => {
+        const cardInformation = async () => {
+            try {
+                const result = await axios.get(`http://localhost:3000/task/${id}`);
+                setCardInfos(result.data);
+            } catch {
+                setCardInfos("");
+            }
+        };
+
+        cardInformation();
+    }, []);
     return (
-        <StyledCard onClick={() => setClick(true)}>
+        <StyledCard   onClick={() => setClick(true)}>
             {title}
 
-            {click && <BigCard/>}
+            {click && <BigCard title={title} id={id} />}
         </StyledCard>
     );
 };

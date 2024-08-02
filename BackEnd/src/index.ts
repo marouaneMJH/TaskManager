@@ -2,10 +2,11 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
+import cardRoutes from "./Routes/CardRoutes.js";
+import listRoutes from "./Routes/ListRoutes.js";
 
 import GetTaskFromDB from "./Controllers/GetTaskFromDB.js";
-import ListsTitle from "./Controllers/ListsTitle.js";
 import db from "./Config/PgConfig.js";
 
 const app = express();
@@ -18,6 +19,8 @@ const __dirname = path.dirname(__filename);
 // Serve static files from the "Public" directory
 app.use(express.static(path.join(__dirname, "./../Public")));
 
+// Routes
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -26,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Connect to DB
 db.connect();
 
+app.use("/", cardRoutes, listRoutes);
 //adding the data to DB to Tasks table
 app.post("/", async (req: Request, res: Response) => {
     const data = req.body;
@@ -57,24 +61,6 @@ app.get("/task1", async (req: Request, res: Response) => {
     const result = await GetTaskFromDB();
     console.log(result);
     res.json(result);
-});
-
-app.get("/lists", async (req: Request, res: Response) => {
-    const result = await ListsTitle("SELECT listname, listID FROM lists;");
-    console.log(result);
-    res.json(result);
-});
-app.get("/cards/:id", async (req: Request, res: Response) => {
-    const listID = parseInt(req.params.id);
-
-    try {
-        const result = await ListsTitle(
-            `SELECT cardTitle FROM cards WHERE listID=${req.params.id};`
-        );
-        res.json(result);
-    } catch {
-        res.redirect("/404");
-    }
 });
 
 app.get("/404", (req: Request, res: Response) => {

@@ -1,7 +1,9 @@
 interface ITaskData {
-    id?: number;
-    title: string;
-    description: string;
+    cardID?: number;
+    cardTitle: string;
+    cardDescription?: string;
+    listID?: number;
+    createdAt?: Date;
 }
 
 export default ITaskData;

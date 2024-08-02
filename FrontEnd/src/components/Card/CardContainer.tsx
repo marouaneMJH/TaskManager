@@ -14,24 +14,6 @@ const StyledCardContainer = styled.ul`
     border-radius: 20px;
     max-height: 70vh;
     overflow-y: auto;
-
-    ::-webkit-scrollbar {
-        width: 12px; /* Width of the scrollbar */
-    }
-
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1; /* Background color of the track */
-        border-radius: 10px; /* Rounded corners of the track */
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: #888; /* Color of the draggable part of the scrollbar */
-        border-radius: 10px; /* Rounded corners of the scrollbar thumb */
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #555; /* Color of the scrollbar thumb on hover */
-    }
 `;
 
 const CardContainer: React.FC<{ listID: number }> = ({ listID }) => {
@@ -55,8 +37,8 @@ const CardContainer: React.FC<{ listID: number }> = ({ listID }) => {
     return (
         <StyledCardContainer>
             {cards.length > 0 ? (
-                cards.map((title, index) => (
-                    <Card key={index} title={title.cardtitle} />
+                cards.map((el, index) => (
+                    <Card key={index} title={el.cardtitle} id={el.cardid} />
                 ))
             ) : (
                 <Card title="something went wrong" />

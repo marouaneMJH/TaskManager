@@ -12,12 +12,15 @@
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+    "@instructure/ui-text-area": "^9.5.1",
+    "@mui/base": "^5.0.0-beta.40",
     "@mui/icons-material": "^5.16.5",
     "@mui/material": "^5.16.5",
     "@types/styled-components": "^5.1.34",
     "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-editor-js": "^2.1.0",
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
