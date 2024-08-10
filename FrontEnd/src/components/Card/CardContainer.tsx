@@ -4,6 +4,8 @@ import axios from "axios";
 import Card from "./Card";
 import AddCard from "./AddCard";
 
+import TaskData from "../../Interfaces/Card";
+
 const StyledCardContainer = styled.ul`
     display: flex;
     flex-direction: column;
@@ -17,15 +19,13 @@ const StyledCardContainer = styled.ul`
 `;
 
 const CardContainer: React.FC<{ listID: number }> = ({ listID }) => {
-    const [cards, setCards] = useState<string[]>([]);
-    // console.log("---",typeof listID);
+    const [cards, setCards] = useState<TaskData[]>([]);
     useEffect(() => {
         const fetchLists = async () => {
             try {
                 const result = await axios.get(
                     `http://localhost:3000/cards/${listID}`
                 );
-                console.log(result.data);
                 setCards(result.data);
             } catch {
                 setCards([]); // Reset the state to an empty array on error
@@ -34,15 +34,18 @@ const CardContainer: React.FC<{ listID: number }> = ({ listID }) => {
 
         fetchLists();
     }, []);
-    console.log(cards);
     return (
         <StyledCardContainer>
             {cards.length > 0 ? (
-                cards.map((el, index) => (
-                    <Card key={index} title={el.cardtitle} id={el.cardid} />
+                cards.map((card) => (
+                    <Card
+                        key={card.cardID}
+                        cardTitle={card.cardTitle}
+                        cardID={card.cardID}
+                    />
                 ))
             ) : (
-                <Card title="something went wrong" />
+                <Card cardTitle="Something went wrong" />
             )}
             <AddCard />
         </StyledCardContainer>

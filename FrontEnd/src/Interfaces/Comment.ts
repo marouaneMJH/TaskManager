@@ -1,4 +1,4 @@
-export interface Comment {
+export default  interface Comment {
     commentID: number;
     commentText?: string;
     userID?: number;

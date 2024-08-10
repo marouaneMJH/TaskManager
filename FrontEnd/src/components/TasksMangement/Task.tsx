@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
-import TaskData from "../../Interfaces/ITaskData";
+import TaskData from "../../Interfaces/Card";
 
 interface StyledProp {
     children?: ReactNode;
@@ -39,18 +39,16 @@ const Cup = styled.div<StyledProp>`
     width: 30px;
     background-color: red;
     margin-right: 1rem;
-    border: solid blue ;
-    border-bottom-width: 4px ;
+    border: solid blue;
+    border-bottom-width: 4px;
     border-radius: 50%;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     &:hover {
         background-color: blue;
     }
 `;
 
-
-const Task: React.FC<{ props: TaskData |undefined }> = ({ props }) => {
-
+const Task: React.FC<{ props: TaskData | undefined }> = ({ props }) => {
     if (props != undefined)
         return (
             <StyledTask>
@@ -64,7 +62,7 @@ const Task: React.FC<{ props: TaskData |undefined }> = ({ props }) => {
                 <Cup />
                 <h3>Error</h3>
             </StyledTask>
-// const StyledTask = styled.div<StyledProp>`
+            // const StyledTask = styled.div<StyledProp>`
         );
 };
 

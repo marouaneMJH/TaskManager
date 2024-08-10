@@ -1,8 +1,9 @@
 /*
     this is the edit card page
 */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 import TitleIcon from "@mui/icons-material/Title";
 import CloseIcon from "@mui/icons-material/Close";
@@ -11,16 +12,16 @@ import NotesIcon from "@mui/icons-material/Notes";
 // import { TextArea } from "@instructure/ui-text-area";
 
 import TextArea from "./../UI/TextArea";
-import TaskData from "./../../Interfaces/ITaskData";
+import ICard from "../../Interfaces/Card";
+import Comment from "../../Interfaces/Comment";
 
-const StyledBigCard = styled.div`
+const StyledBigCard = styled.div<{ visible?: boolean }>`
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    display: flex;
+    display: ${({ visible }) => (visible ? "none" : "flex")};
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
 
     height: 80%;
@@ -56,16 +57,77 @@ const StyledBigCardContent = styled.div`
     flex-direction: column;
 `;
 
-const BigCard: React.FC<TaskData> = ({ id,title }) => {
+const StyledCloseIcon = styled(CloseIcon)`
+    cursor: pointer;
+
+    &:hover {
+        color: red;
+    }
+`;
+const StyledDescription = styled.div`
+    background-color: #444;
+    max-height: 14rem;
+    width: 95%;
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-y: scroll;
+    /* line-height: 1.6rem;
+    line-break: normal; */
+`;
+const BigCard: React.FC<ICard> = ({ cardID, cardTitle }) => {
+
+
     const [clicked, setClicked] = useState<boolean>(false);
+    const [iconClick, setIconClick] = useState<boolean>(false);
+    const [changed, setChanged] = useState<boolean>(false);
+    const [cardData, setCardData] = useState<(ICard & Comment) | undefined>(
+        undefined
+    );
+
+    
+    
+    // Fetch card data
+    useEffect(() => {
+        const fetchCardData = async () => {
+            try {
+                const data = await axios.get(
+                    `http://localhost:3000/task/${cardID}`
+                );
+                setCardData(data.data);
+                console.log(cardData);
+            } catch (error) {
+                console.error("Failed to fetch card data", error);
+            }
+        };
+
+        const postCardDescription = async () => {
+            try {
+                if (cardData != undefined)
+                    await axios.post(`http://localhost:3000/task/${cardID}`, {cardDescription: cardData.cardDescription});
+            } catch (error) {
+                console.error("Failed to post card description", error);
+            }
+        };
+
+        fetchCardData();
+        postCardDescription();
+    }, [changed]);
+
+    console.log(changed);
     return (
-        <StyledBigCard>
+        <StyledBigCard visible={iconClick}>
             <StyledBigCardHeader>
                 <StyledBigCardTitle>
                     <TitleIcon />
-                    <h3>{title} this is the id {id}</h3>
+                    <h3>
+                        {cardTitle} this is the id {cardID}
+                    </h3>
                 </StyledBigCardTitle>
-                <CloseIcon />
+                <StyledCloseIcon
+                    onClick={() => {
+                        setIconClick(true);
+                    }}
+                />
             </StyledBigCardHeader>
             <StyledBigCardContent>
                 <StyledBigCardTitle>
@@ -73,9 +135,28 @@ const BigCard: React.FC<TaskData> = ({ id,title }) => {
                     <h3>Description</h3>
                 </StyledBigCardTitle>
                 {clicked ? (
-                    <TextArea $heightRem={10} $widthPer={100} />
+                    <TextArea
+                        placeholder="enter the task description "
+                        onChange={() => {
+                            setChanged(true);
+                        }}
+                        $heightRem={14}
+                        $widthPer={100}
+                    >
+                        {cardData != undefined ? (
+                            cardData?.cardDescription
+                        ) : (
+                            <>Error</>
+                        )}
+                    </TextArea>
                 ) : (
-                    <TextArea onClick={() => setClicked(!clicked)} />
+                    //todo when i do div it works but with text area wont work
+                    <StyledDescription
+                        // $heightRem={14}
+                        onClick={() => setClicked(!clicked)}
+                    >
+                        {cardData?.cardDescription}
+                    </StyledDescription>
                 )}
             </StyledBigCardContent>
             <StyledBigCardContent>

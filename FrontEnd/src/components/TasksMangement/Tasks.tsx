@@ -2,24 +2,22 @@ import React, { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import Task from "./Task";
 import AddTask from "./AddTask";
-import TaskData from "./../../Interfaces/ITaskData";
+import TaskData from "../../Interfaces/Card";
 import PopUp from "./PopUp";
 import styled from "styled-components";
 
+const StyledTask = styled.div`
+    width: 30%;
+    height: 100dvh;
+    transition: all 0.3s ease-in-out;
+    transform: -50% -50%;
+    text-align: center;
+`;
 
-
-const StyledTask= styled.div`
-        width: 30%;
-        height: 100dvh;
-        transition: all 0.3s ease-in-out;
-        transform: -50% -50%;
-        text-align: center;
-`
-
-
-
-
-const Tasks: React.FC<{ title: string;background:string }> = ({ title, background }) => {
+const Tasks: React.FC<{ title: string; background: string }> = ({
+    title,
+    background,
+}) => {
     const [taskData, setTaskData] = useState<TaskData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>("");
@@ -51,12 +49,11 @@ const Tasks: React.FC<{ title: string;background:string }> = ({ title, backgroun
         return () => {
             isMounted = false;
         };
-    }, []);// todo fetching data when somme thing add task(post request)
+    }, []); // todo fetching data when somme thing add task(post request)
 
     return (
         <>
             <StyledTask
-                
                 className="tasks-container"
                 style={{
                     background: background,

@@ -1,79 +1,83 @@
--- Table to store user information
-CREATE TABLE Users (
-    UserID SERIAL PRIMARY KEY,
-    Username VARCHAR(50) NOT NULL UNIQUE,
-    Email VARCHAR(100) NOT NULL UNIQUE,
-    PasswordHash VARCHAR(255) NOT NULL,
-    CreatedAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+
+--  Customize for Ts types
+
+
+-- Creating the users table
+CREATE TABLE "users" (
+    "userID" INT PRIMARY KEY,
+    "username" VARCHAR(255) NOT NULL,
+    "email" VARCHAR(255) NOT NULL UNIQUE,
+    "passwordHash" VARCHAR(255) NOT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table to store boards
-CREATE TABLE Boards (
-    BoardID SERIAL PRIMARY KEY,
-    BoardName VARCHAR(100) NOT NULL,
-    UserID INT,
-    CreatedAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+-- Creating the boards table
+CREATE TABLE "boards" (
+    "boardID" INT PRIMARY KEY,
+    "boardName" VARCHAR(255) NOT NULL,
+    "userID" INT,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("userID") REFERENCES "users"("userID")
 );
 
--- Table to store lists within boards
-CREATE TABLE Lists (
-    ListID SERIAL PRIMARY KEY,
-    ListName VARCHAR(100) NOT NULL,
-    BoardID INT ,
-    CreatedAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (BoardID) REFERENCES Boards(BoardID)
+-- Creating the lists table
+CREATE TABLE "lists" (
+    "listID" INT PRIMARY KEY,
+    "listName" VARCHAR(255) NOT NULL,
+    "boardID" INT,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("boardID") REFERENCES "boards"("boardID")
 );
 
--- Table to store cards within lists
-CREATE TABLE Cards (
-    CardID SERIAL PRIMARY KEY,
-    CardTitle VARCHAR(255) NOT NULL,
-    CardDescription TEXT,
-    ListID INT,
-    CreatedAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (ListID) REFERENCES Lists(ListID)
+-- Creating the cards table
+CREATE TABLE "cards" (
+    "cardID" INT PRIMARY KEY,
+    "cardTitle" VARCHAR(255) NOT NULL,
+    "cardDescription" TEXT,
+    "listID" INT,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("listID") REFERENCES "lists"("listID")
 );
 
--- Table to store comments on cards
-CREATE TABLE Comments (
-    CommentID SERIAL PRIMARY KEY,
-    CommentText TEXT NOT NULL,
-    UserID INT,
-    CardID INT,
-    CreatedAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (CardID) REFERENCES Cards(CardID)
+-- Creating the comments table
+CREATE TABLE "comments" (
+    "commentID" INT PRIMARY KEY,
+    "commentText" TEXT NOT NULL,
+    "userID" INT,
+    "cardID" INT,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("userID") REFERENCES "users"("userID"),
+    FOREIGN KEY ("cardID") REFERENCES "cards"("cardID")
 );
 
--- Table to store labels
-CREATE TABLE Labels (
-    LabelID SERIAL PRIMARY KEY,
-    LabelName VARCHAR(50) NOT NULL,
-    LabelColor VARCHAR(7) NOT NULL -- Assuming color is stored in hex format
+-- Creating the labels table
+CREATE TABLE "labels" (
+    "labelID" INT PRIMARY KEY,
+    "labelName" VARCHAR(255) NOT NULL,
+    "labelColor" VARCHAR(7) NOT NULL
 );
 
--- Table to manage many-to-many relationship between cards and labels
-CREATE TABLE Card_Labels (
-    CardID INT,
-    LabelID INT,
-    PRIMARY KEY (CardID, LabelID),
-    FOREIGN KEY (CardID) REFERENCES Cards(CardID),
-    FOREIGN KEY (LabelID) REFERENCES Labels(LabelID)
+-- Creating the card_labels table
+CREATE TABLE "cardLabels" (
+    "cardID" INT,
+    "labelID" INT,
+    PRIMARY KEY ("cardID", "labelID"),
+    FOREIGN KEY ("cardID") REFERENCES "cards"("cardID"),
+    FOREIGN KEY ("labelID") REFERENCES "labels"("labelID")
 );
 
--- Table to track activities on boards, lists, and cards
-CREATE TABLE Activity_Log (
-    ActivityID SERIAL PRIMARY KEY,
-    UserID INT,
-    ActivityType VARCHAR(50),
-    ActivityDescription TEXT,
-    BoardID INT,
-    ListID INT,
-    CardID INT,
-    CreatedAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (BoardID) REFERENCES Boards(BoardID),
-    FOREIGN KEY (ListID) REFERENCES Lists(ListID),
-    FOREIGN KEY (CardID) REFERENCES Cards(CardID)
+-- Creating the activity_log table
+CREATE TABLE "activityLog" (
+    "activityID" INT PRIMARY KEY,
+    "userID" INT,
+    "activityType" VARCHAR(50) NOT NULL,
+    "activityDescription" TEXT,
+    "boardID" INT,
+    "listID" INT,
+    "cardID" INT,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("userID") REFERENCES "users"("userID"),
+    FOREIGN KEY ("boardID") REFERENCES "boards"("boardID"),
+    FOREIGN KEY ("listID") REFERENCES "lists"("listID"),
+    FOREIGN KEY ("cardID") REFERENCES "cards"("cardID")
 );

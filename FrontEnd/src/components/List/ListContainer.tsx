@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import AddList from "./AddList";
-import List from "./List";
 import axios from "axios";
 
+import AddList from "./AddList";
+import List from "./List";
+
+import IList from "./../../Interfaces/List";
 const StyledListContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -16,7 +18,7 @@ const StyledListContainer = styled.div`
 `;
 
 const ListContainer: React.FC = () => {
-    const [lists, setLists] = useState<string[]>([]);
+    const [lists, setLists] = useState<IList[]>([]);
 
     useEffect(() => {
         const fetchLists = async () => {
@@ -35,7 +37,7 @@ const ListContainer: React.FC = () => {
         <StyledListContainer>
             {lists.length > 0 ? (
                 lists.map((el, index) => (
-                    <List key={index} title={el.listname} listID={el.listid} />
+                    <List key={index} title={el.listName} listID={el.listID} />
                 ))
             ) : (
                 <h1>No items to show</h1>

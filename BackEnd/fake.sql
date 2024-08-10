@@ -1,83 +1,67 @@
--- Insert fake users
-INSERT INTO Users (Username, Email, PasswordHash)
-VALUES 
-('john_doe', 'john@example.com', 'hashedpassword1'),
-('jane_smith', 'jane@example.com', 'hashedpassword2'),
-('alice_jones', 'alice@example.com', 'hashedpassword3'),
-('bob_brown', 'bob@example.com', 'hashedpassword4');
+-- Inserting data into "users" table
+INSERT INTO "users" ("userID", "username", "email", "passwordHash", "createdAt")
+VALUES
+(1, "john_doe", "john.doe@example.com", "hashpassword123", "2024-08-01 12:34:56"),
+(2, "jane_smith", "jane.smith@example.com", "hashpassword456", "2024-08-02 14:20:30"),
+(3, "sam_wilson", "sam.wilson@example.com", "hashpassword789", "2024-08-03 09:15:22");
 
--- Insert fake boards
-INSERT INTO Boards (BoardName, UserID)
-VALUES 
-('Project Alpha', 1),
-('Marketing Plan', 2),
-('Development', 3),
-('Design', 4);
+-- Inserting data into "boards" table
+INSERT INTO "boards" ("boardID", "boardName", "userID", "createdAt")
+VALUES
+(1, "Project Alpha", 1, "2024-08-03 10:00:00"),
+(2, "Marketing Strategy", 2, "2024-08-04 11:45:12"),
+(3, "Development Sprint", 3, "2024-08-05 08:30:45");
 
--- Insert fake lists
-INSERT INTO Lists (ListName, BoardID)
-VALUES 
-('To Do', 1),
-('In Progress', 1),
-('Completed', 1),
-('Backlog', 2),
-('To Do', 2),
-('In Progress', 3),
-('Completed', 3),
-('Ideas', 4);
+-- Inserting data into "lists" table
+INSERT INTO "lists" ("listID", "listName", "boardID", "createdAt")
+VALUES
+(1, "To Do", 1, "2024-08-03 10:15:00"),
+(2, "In Progress", 1, "2024-08-03 10:30:00"),
+(3, "Done", 1, "2024-08-03 10:45:00"),
+(4, "Ideas", 2, "2024-08-04 12:00:00"),
+(5, "Backlog", 3, "2024-08-05 08:45:00");
 
--- Insert fake cards
-INSERT INTO Cards (CardTitle, CardDescription, ListID)
-VALUES 
-('Task 1', 'Description for Task 1', 1),
-('Task 2', 'Description for Task 2', 2),
-('Task 3', 'Description for Task 3', 3),
-('Task 4', 'Description for Task 4', 4),
-('Task 5', 'Description for Task 5', 5),
-('Task 6', 'Description for Task 6', 6),
-('Task 7', 'Description for Task 7', 7),
-('Task 8', 'Description for Task 8', 8);
+-- Inserting data into "cards" table
+INSERT INTO "cards" ("cardID", "cardTitle", "cardDescription", "listID", "createdAt")
+VALUES
+(1, "Design UI", "Create the initial UI design for the app.", 1, "2024-08-03 10:20:00"),
+(2, "Write API Docs", "Document the API endpoints for the project.", 2, "2024-08-03 10:35:00"),
+(3, "Deploy to Production", "Deploy the latest version to the production server.", 3, "2024-08-03 10:50:00"),
+(4, "Brainstorm Ideas", "Collect marketing ideas for the new campaign.", 4, "2024-08-04 12:15:00"),
+(5, "Review Code", "Review the code for any potential issues.", 5, "2024-08-05 09:00:00");
 
--- Insert fake comments
-INSERT INTO Comments (CommentText, UserID, CardID)
-VALUES 
-('This is a comment on Task 1', 1, 1),
-('This is a comment on Task 2', 2, 2),
-('This is a comment on Task 3', 3, 3),
-('This is a comment on Task 4', 4, 4),
-('This is a comment on Task 5', 1, 5),
-('This is a comment on Task 6', 2, 6),
-('This is a comment on Task 7', 3, 7),
-('This is a comment on Task 8', 4, 8);
+-- Inserting data into "comments" table
+INSERT INTO "comments" ("commentID", "commentText", "userID", "cardID", "createdAt")
+VALUES
+(1, "Great work on the UI design!", 2, 1, "2024-08-03 11:00:00"),
+(2, "Please add more details to the API docs.", 1, 2, "2024-08-03 11:15:00"),
+(3, "Make sure to test thoroughly before deploying.", 3, 3, "2024-08-03 11:30:00"),
+(4, "I like the idea of using social media influencers.", 2, 4, "2024-08-04 12:30:00"),
+(5, "Code looks good, just a few minor tweaks needed.", 1, 5, "2024-08-05 09:15:00");
 
--- Insert fake labels
-INSERT INTO Labels (LabelName, LabelColor)
-VALUES 
-('Urgent', '#FF0000'),
-('High Priority', '#FFA500'),
-('Medium Priority', '#FFFF00'),
-('Low Priority', '#00FF00');
+-- Inserting data into "labels" table
+INSERT INTO "labels" ("labelID", "labelName", "labelColor")
+VALUES
+(1, "Urgent", "#FF0000"),
+(2, "High Priority", "#FFA500"),
+(3, "Low Priority", "#00FF00"),
+(4, "Bug", "#0000FF"),
+(5, "Enhancement", "#800080");
 
--- Insert fake card-label relationships
-INSERT INTO Card_Labels (CardID, LabelID)
-VALUES 
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 1),
-(6, 2),
-(7, 3),
-(8, 4);
+-- Inserting data into "card_labels" table
+INSERT INTO "cardLabels" ("cardID", "labelID")
+VALUES
+(1, 2),
+(2, 5),
+(3, 1),
+(4, 3),
+(5, 4);
 
--- Insert fake activities
-INSERT INTO Activity_Log (UserID, ActivityType, ActivityDescription, BoardID, ListID, CardID)
-VALUES 
-(1, 'Create Board', 'Created board Project Alpha', 1, NULL, NULL),
-(2, 'Create Board', 'Created board Marketing Plan', 2, NULL, NULL),
-(3, 'Create Board', 'Created board Development', 3, NULL, NULL),
-(4, 'Create Board', 'Created board Design', 4, NULL, NULL),
-(1, 'Add Card', 'Added card Task 1 to To Do list', 1, 1, 1),
-(2, 'Add Card', 'Added card Task 2 to In Progress list', 1, 2, 2),
-(3, 'Add Card', 'Added card Task 3 to Completed list', 1, 3, 3),
-(4, 'Add Card', 'Added card Task 4 to Backlog list', 2, 4, 4);
+-- Inserting data into "activityLog" table
+INSERT INTO "activityLog" ("activityID", "userID", "activityType", "activityDescription", "boardID", "listID", "cardID", "createdAt")
+VALUES
+(1, 1, "create_card", "Created a new card 'Design UI'.", 1, 1, 1, "2024-08-03 10:20:00"),
+(2, 2, "add_comment", "Added a comment to card 'Design UI'.", 1, 1, 1, "2024-08-03 11:00:00"),
+(3, 3, "move_card", "Moved card 'Write API Docs' to 'In Progress'.", 1, 2, 2, "2024-08-03 10:35:00"),
+(4, 2, "create_board", "Created a new board 'Marketing Strategy'.", 2, NULL, NULL, "2024-08-04 11:45:12"),
+(5, 3, "create_list", "Created a new list 'Backlog'.", 3, 5, NULL, "2024-08-05 08:45:00");

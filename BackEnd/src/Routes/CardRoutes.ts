@@ -15,7 +15,7 @@ router.get("/task/:id", async (req: Request, res: Response) => {
             return res.status(404).json({ message: "Card not found" });
         }
 
-        res.status(200).json(cardInfo);
+        res.status(200).json(cardInfo[0]);
     } catch (error) {
         console.error("Error fetching card information:", error);
         res.status(500).json({ message: "Internal server error" });

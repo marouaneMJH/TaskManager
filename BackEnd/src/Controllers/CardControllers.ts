@@ -1,36 +1,34 @@
-import db from "./../Config/PgConfig.js"
+import db from "./../Config/PgConfig.js";
 
-
-export const getCardInfoById = async (id) => {
+export const getCardInfoById = async (id:number) => {
     const query = `
-    SELECT 
-      c.CardID,
-      c.CardTitle,
-      c.CardDescription,
-      c.CreatedAt AS CardCreatedAt,
-      com.CommentID,
-      com.CommentText,
-      com.UserID AS CommentUserID,
-      u.Username AS CommentUsername,
-      com.CreatedAt AS CommentCreatedAt
-    FROM 
-      Cards c
-    LEFT JOIN 
-      Comments com ON c.CardID = com.CardID
-    LEFT JOIN 
-      Users u ON com.UserID = u.UserID
-    WHERE 
-      c.CardID = $1;
-  `;
+SELECT 
+    c."cardID",
+    c."cardTitle",
+    c."cardDescription",
+    c."createdAt" AS "cardCreatedAt",
+    com."commentID",
+    com."commentText",
+    com."userID" AS "commentUserID",
+    u."username" AS "commentUsername",
+    com."createdAt" AS "commentCreatedAt"
+FROM 
+    "cards" c
+LEFT JOIN 
+    "comments" com ON c."cardID" = com."cardID"
+LEFT JOIN 
+    "users" u ON com."userID" = u."userID"
+WHERE 
+    c."cardID" = $1;
+
+`;
 
     const result = await db.query(query, [id]);
     return result.rows;
 };
 
-export const getCardsByListId = async (listID) => {
-  const query = 'SELECT cardID, cardTitle FROM cards WHERE listID = $1';
-  const result = await db.query(query, [listID]);
-  return result.rows;
+export const getCardsByListId = async (listID:number) => {
+    const query = 'SELECT "cardID", "cardTitle" FROM "cards" WHERE "listID" = $1';
+    const result = await db.query(query, [listID]);
+    return result.rows;
 };
-
-
