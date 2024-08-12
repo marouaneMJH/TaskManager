@@ -90,3 +90,12 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #555; /* Color of the scrollbar thumb on hover */
 }
+
+a {
+  color: rgb(84, 129, 168);
+  text-decoration: none;
+}
+
+body {
+    background-color: rgb(34, 37, 39);
+}

@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
-import TitleInput from "../TitleInput";
+import Button from "@mui/material/Button";
+import {
+    StyledCloseIcon,
+    StyledContainer,
+    StyledInput,
+    StyledSecondContainer,
+} from "../TitleInput";
 
 const StyledAddCard = styled.li`
     display: flex;
@@ -19,8 +26,34 @@ const StyledAddCard = styled.li`
     }
 `;
 
-const AddCard: React.FC = () => {
+const AddCard: React.FC<{ listID: number }> = ({ listID }) => {
     const [click, setClick] = useState<boolean>(false);
+    const [taskName, setTaskName] = useState<string>("");
+    const [postClick, setPostClick] = useState<boolean>(false);
+
+    ///todo pup-up function
+
+    useEffect(() => {
+        const postNewTask = async () => {
+            try {
+                const title = taskName;
+                if (postClick == true) {
+                    await axios.post(
+                        `http://localhost:3000/addTask/${listID}`,
+                        {
+                            title,
+                        }
+                    );
+                    setPostClick(false);
+                    setTaskName("");
+                }
+            } catch {
+                console.error("Failed to post new task");
+            }
+        };
+
+        postNewTask();
+    }, [postClick]);
 
     if (click == false)
         return (
@@ -32,7 +65,29 @@ const AddCard: React.FC = () => {
     else
         return (
             <StyledAddCard>
-                <TitleInput title="Enter title of new card" />
+                <StyledContainer>
+                    <StyledInput
+                        type="text"
+                        placeholder="enter task name"
+                        value={taskName}
+                        onChange={(e) => {
+                            setTaskName(e.target.value);
+                        }}
+                    />
+                    <StyledSecondContainer>
+                        <Button
+                            onClick={() => setPostClick(true)}
+                            variant="contained"
+                            type="submit"
+                        >
+                            <AddIcon fontSize="small" />
+                        </Button>
+                        <StyledCloseIcon
+                            onClick={() => setClick(false)}
+                            fontSize="medium"
+                        />
+                    </StyledSecondContainer>
+                </StyledContainer>
             </StyledAddCard>
         );
 };

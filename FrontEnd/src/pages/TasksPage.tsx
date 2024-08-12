@@ -1,16 +1,8 @@
 import React from "react";
-import Tasks from "../components/TasksMangement/Tasks";
+import ListContainer from "../components/List/ListContainer";
 
-type Props = {
-    title: string;
-};
-
-const TasksPage: React.FC<Props> = (props) => {
-    return (
-        <>
-        
-        </>
-    );
+const TasksPage: React.FC = () => {
+    return <ListContainer />;
 };
 
 export default TasksPage;

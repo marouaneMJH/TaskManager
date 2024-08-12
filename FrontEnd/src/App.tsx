@@ -1,5 +1,8 @@
 import React from "react";
-import ListContainer from "./components/List/ListContainer";
+import { Outlet } from "react-router-dom";
+// import ListContainer from "./components/List/ListContainer";
+import Header from "./components/UI/Header";
+import TasksPage from "./pages/TasksPage";
 
 const App: React.FC = () => {
     return (
@@ -8,7 +11,9 @@ const App: React.FC = () => {
                 width: "100vw",
             }}
         >
-            <ListContainer />
+            <Header title="MJH" />
+            <TasksPage />
+            <Outlet />
         </div>
     );
 };

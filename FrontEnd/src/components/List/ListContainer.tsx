@@ -9,7 +9,7 @@ import IList from "./../../Interfaces/List";
 const StyledListContainer = styled.div`
     display: flex;
     flex-direction: row;
-    background-color: #f17575;
+    /* background-color: #f17575; */
     align-items: start;
     width: 100vw;
     padding: 1rem;

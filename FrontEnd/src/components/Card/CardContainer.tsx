@@ -5,6 +5,7 @@ import Card from "./Card";
 import AddCard from "./AddCard";
 
 import TaskData from "../../Interfaces/Card";
+import { Link } from "react-router-dom";
 
 const StyledCardContainer = styled.ul`
     display: flex;
@@ -38,16 +39,14 @@ const CardContainer: React.FC<{ listID: number }> = ({ listID }) => {
         <StyledCardContainer>
             {cards.length > 0 ? (
                 cards.map((card) => (
-                    <Card
-                        key={card.cardID}
-                        cardTitle={card.cardTitle}
-                        cardID={card.cardID}
-                    />
+                    <Link to={`${card.cardID}`}>
+                        <Card key={card.cardID} cardTitle={card.cardTitle} />
+                    </Link>
                 ))
             ) : (
                 <Card cardTitle="Something went wrong" />
             )}
-            <AddCard />
+            <AddCard listID={listID}/>
         </StyledCardContainer>
     );
 };

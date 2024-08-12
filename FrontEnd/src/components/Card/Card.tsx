@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import TaskData from "../../Interfaces/Card";
-
-import BigCard from "./BigCard";
+import TaskData from "./../../Interfaces/Card";
 
 const StyledCard = styled.li`
     background-color: #0f1e0f;
@@ -16,15 +14,8 @@ const StyledCard = styled.li`
     }
 `;
 
-const Card: React.FC<TaskData> = ({ cardID, cardTitle }) => {
-    const [click, setClick] = useState<boolean>(false);
-    return (
-        <StyledCard onClick={() => setClick(true)}>
-            {cardTitle}
-
-            {click && <BigCard cardTitle={cardTitle} cardID={cardID} />}
-        </StyledCard>
-    );
+const Card: React.FC<TaskData> = ({ cardTitle }) => {
+    return <StyledCard>{cardTitle}</StyledCard>;
 };
 
 export default Card;
