@@ -6,6 +6,8 @@ import AddCard from "./AddCard";
 
 import TaskData from "../../Interfaces/Card";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state/store";
 
 const StyledCardContainer = styled.ul`
     display: flex;
@@ -21,6 +23,9 @@ const StyledCardContainer = styled.ul`
 
 const CardContainer: React.FC<{ listID: number }> = ({ listID }) => {
     const [cards, setCards] = useState<TaskData[]>([]);
+    const isReload = useSelector(
+        (state: RootState) => state.reloadCardContainer
+    );
     useEffect(() => {
         const fetchLists = async () => {
             try {
@@ -34,19 +39,19 @@ const CardContainer: React.FC<{ listID: number }> = ({ listID }) => {
         };
 
         fetchLists();
-    }, []);
+    }, [isReload]);
     return (
         <StyledCardContainer>
             {cards.length > 0 ? (
-                cards.map((card) => (
-                    <Link to={`${card.cardID}`}>
+                cards.map((card, index) => (
+                    <Link key={index} to={`${card.cardID}`}>
                         <Card key={card.cardID} cardTitle={card.cardTitle} />
                     </Link>
                 ))
             ) : (
                 <Card cardTitle="Something went wrong" />
             )}
-            <AddCard listID={listID}/>
+            <AddCard listID={listID} />
         </StyledCardContainer>
     );
 };

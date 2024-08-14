@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
+
 import {
     StyledCloseIcon,
     StyledContainer,
     StyledInput,
     StyledSecondContainer,
 } from "../TitleInput";
+
+import { toggleCardState } from "../../state/Reload/pageReload";
 
 const StyledAddCard = styled.li`
     display: flex;
@@ -26,12 +30,29 @@ const StyledAddCard = styled.li`
     }
 `;
 
+const StyledButton = styled(Button)`
+    &:hover::after {
+        content: 'add';
+        position: absolute;
+        left: 70px;
+        bottom: 30px;
+        background-color: #333;
+        color: #fff;
+        padding: 5px 8px;
+        border-radius: 4px;
+        white-space: nowrap;
+        z-index: 1;
+        font-size: 9px;
+    }
+`;
+
+
 const AddCard: React.FC<{ listID: number }> = ({ listID }) => {
     const [click, setClick] = useState<boolean>(false);
     const [taskName, setTaskName] = useState<string>("");
     const [postClick, setPostClick] = useState<boolean>(false);
+    const dispatch = useDispatch();
 
-    ///todo pup-up function
 
     useEffect(() => {
         const postNewTask = async () => {
@@ -46,6 +67,7 @@ const AddCard: React.FC<{ listID: number }> = ({ listID }) => {
                     );
                     setPostClick(false);
                     setTaskName("");
+                    dispatch(toggleCardState());
                 }
             } catch {
                 console.error("Failed to post new task");
@@ -75,13 +97,13 @@ const AddCard: React.FC<{ listID: number }> = ({ listID }) => {
                         }}
                     />
                     <StyledSecondContainer>
-                        <Button
+                        <StyledButton
                             onClick={() => setPostClick(true)}
                             variant="contained"
                             type="submit"
                         >
                             <AddIcon fontSize="small" />
-                        </Button>
+                        </StyledButton>
                         <StyledCloseIcon
                             onClick={() => setClick(false)}
                             fontSize="medium"
