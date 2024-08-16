@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Header from "../components/UI/Header";
+import Header from "../components/ui/Header";
 import { IoMdPerson } from "react-icons/io";
-import { Button } from "./../components/UI/button";
+import { Button } from "../components/ui/button";
 
 const StyledContainer = styled.div`
     display: grid;
@@ -150,7 +150,7 @@ const Boards: React.FC = () => {
                             <h2>no boards to show</h2>
                         </>
                     )}
-                    <StyledHome >
+                    <StyledHome>
                         <Link to="/task">Home</Link>
                     </StyledHome>
                 </StyledContainer>

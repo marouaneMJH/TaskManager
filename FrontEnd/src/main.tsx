@@ -13,8 +13,8 @@ import BigCard from "./components/Card/BigCard.tsx";
 import DashBoard from "./pages/DashBoards.tsx";
 import Auth from "./pages/Auth.tsx";
 import { store } from "./state/store.ts";
-import SignIn from "./components/Acount/SignIn.tsx";
-import SignUp from "./components/Acount/SignUp.tsx";
+import SignIn from "./components/Account/SignIn.tsx";
+import SignUp from "./components/Account/SignUp.tsx";
 
 const router = createBrowserRouter([
     {

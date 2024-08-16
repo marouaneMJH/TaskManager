@@ -125,7 +125,7 @@ const Header: React.FC<{ title: string }> = ({ title }) => {
             <LeftSection>
                 <Logo to="/task">{title}</Logo>
                 <NavItem to="/workspaces">Workspaces</NavItem>
-                <NavItem to="/recent">Recent</NavItem>
+                <NavItem to="/dash-board">Recent</NavItem>
                 <NavItem to="/starred">Starred</NavItem>
                 <NavItem to="/more">More</NavItem>
                 <PlusButton>

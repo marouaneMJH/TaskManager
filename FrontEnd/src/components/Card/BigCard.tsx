@@ -11,7 +11,7 @@ import NotesIcon from "@mui/icons-material/Notes";
 
 // import { TextArea } from "@instructure/ui-text-area";
 
-import TextArea from "./../UI/TextArea";
+import TextArea from "../ui/TextArea";
 import ICard from "../../Interfaces/Card";
 import Comment from "../../Interfaces/Comment";
 import { Link, useParams } from "react-router-dom";
@@ -65,7 +65,6 @@ const StyledCloseIcon = styled(CloseIcon)`
         color: red;
     }
 `;
-
 
 const BigCard: React.FC = () => {
     const paramsID = useParams();
@@ -146,7 +145,7 @@ const BigCard: React.FC = () => {
                             value={cardData?.cardDescription}
                         />
                     ) : (
-                        //todo make text area editable 
+                        //todo make text area editable
                         <TextArea
                             placeholder="enter the task description "
                             onChange={() => {
@@ -158,7 +157,6 @@ const BigCard: React.FC = () => {
                             $heightRem={10}
                             $widthPer={100}
                             value={cardData?.cardDescription}
-                            
                         />
                     )}
                 </StyledBigCardContent>
