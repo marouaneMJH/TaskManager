@@ -1,6 +1,6 @@
 import db from "./../Config/PgConfig.js";
 
-export const getCardInfoById = async (id:number) => {
+export const getCardInfoById = async (id: number) => {
     const query = `
 SELECT 
     c."cardID",
@@ -27,8 +27,17 @@ WHERE
     return result.rows;
 };
 
-export const getCardsByListId = async (listID:number) => {
-    const query = 'SELECT "cardID", "cardTitle" FROM "cards" WHERE "listID" = $1';
+export const getCardsByListId = async (listID: number) => {
+    const query =
+        'SELECT "cardID", "cardTitle" FROM "cards" WHERE "listID" = $1';
     const result = await db.query(query, [listID]);
     return result.rows;
+};
+
+export const addNewCard = async (listID: number, title: string) => {
+    const date = new Date().toISOString();
+    console.log(date);
+    const query = 'INSERT INTO "cards" ("cardTitle", "listID", "createdAt") VALUES ($1, $2, $3)';
+    const result = await db.query(query, [title, listID, date]);  
+    return result;
 };

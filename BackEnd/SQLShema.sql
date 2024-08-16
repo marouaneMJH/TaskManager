@@ -6,6 +6,8 @@
 CREATE TABLE "users" (
     "userID" INT PRIMARY KEY,
     "username" VARCHAR(255) NOT NULL,
+    "firstName" VARCHAR(255) NOT NULL,
+    "lastName" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL UNIQUE,
     "passwordHash" VARCHAR(255) NOT NULL,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -81,3 +83,5 @@ CREATE TABLE "activityLog" (
     FOREIGN KEY ("listID") REFERENCES "lists"("listID"),
     FOREIGN KEY ("cardID") REFERENCES "cards"("cardID")
 );
+
+

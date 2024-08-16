@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import {
     getCardInfoById,
     getCardsByListId,
+    addNewCard,
 } from "../Controllers/CardControllers.js";
 
 const router = express.Router();
@@ -31,6 +32,22 @@ router.get("/cards/:id", async (req: Request, res: Response) => {
     } catch (error) {
         console.error("Error fetching cards:", error);
         res.status(500).send("Failed to fetch cards");
+    }
+});
+
+router.post("/addTask/:listID", async (req: Request, res: Response) => {
+    const listID = parseInt(req.params.listID); 
+    console.log("/addTask/:listID");
+    try {
+        if (!req.body.title) {
+            console.log("missing title"); 
+            return res.status(400).json({ message: "Missing title" });
+        }
+        await addNewCard(listID, req.body.title);
+        return res.send("Task added successfully");
+    } catch (error) {
+        console.log(error); 
+        return res.status(400).json({ message: "Failed to add task" });
     }
 });
 

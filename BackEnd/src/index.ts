@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 
 import cardRoutes from "./Routes/CardRoutes.js";
 import listRoutes from "./Routes/ListRoutes.js";
+import authRoutes from "./Routes/AuthRoutes.js"
 import db from "./Config/PgConfig.js";
 
 const app = express();
@@ -29,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 db.connect();
 
 // Routes
-app.use("/", cardRoutes, listRoutes);
+app.use("/", authRoutes,cardRoutes, listRoutes);
 
 //todo delete this fn
 //adding the data to DB to Tasks table
