@@ -6,7 +6,7 @@ const StyledCard = styled.li`
     background-color: #0f1e0f;
     padding: 0.7rem;
     border-radius: 6px;
-    transition: all 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
     outline: none;
     &:hover {
         background-color: #334d33;

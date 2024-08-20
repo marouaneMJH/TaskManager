@@ -4,10 +4,9 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 
-
 import cardRoutes from "./Routes/CardRoutes.js";
 import listRoutes from "./Routes/ListRoutes.js";
-import authRoutes from "./Routes/AuthRoutes.js"
+import authRoutes from "./Routes/AuthRoutes.js";
 import db from "./Config/PgConfig.js";
 
 const app = express();
@@ -18,11 +17,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Serve static files from the "Public" directory
-app.use(express.static(path.join(__dirname, "./../Public"))); 
-
+app.use(express.static(path.join(__dirname, "./../Public")));
 
 // Middleware
-app.use(cors());
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true,
+    })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -30,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 db.connect();
 
 // Routes
-app.use("/", authRoutes,cardRoutes, listRoutes);
+app.use("/", authRoutes, cardRoutes, listRoutes);
 
 //todo delete this fn
 //adding the data to DB to Tasks table

@@ -1,4 +1,4 @@
-"user client";
+// "user client";
 
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import User from "@/Interfaces/User";
 
 const signUpSchema = z
     .object({
@@ -48,6 +49,7 @@ const signUpSchema = z
 
 const SignUp = () => {
     const [submit, setSubmit] = useState<boolean>(false);
+    const [signUpData, setSignUpData] = useState<User>();
     const form = useForm<z.infer<typeof signUpSchema>>({
         resolver: zodResolver(signUpSchema),
         defaultValues: {
@@ -62,18 +64,34 @@ const SignUp = () => {
     useEffect(() => {
         const registerUser = async () => {
             if (form.formState.isValid) {
-                const result = await axios.post("someshit here");
-                console.log(result);
+                //pop-up
+                await axios.post("/auth/register", signUpData);
             }
         };
 
         registerUser();
     }, [submit]);
 
+    //for split the full name to fist name and last name
+    function splitAtFirstSpace(input: string): [string, string] {
+        const index = input.indexOf(" ");
+        if (index === -1) {
+            return [input, ""];
+        }
+        return [input.slice(0, index), input.slice(index + 1)];
+    }
+
     function onSubmit(values: z.infer<typeof signUpSchema>) {
         setSubmit(true);
-        console.log(values);
-        console.log(form.formState);
+        setSignUpData({
+            username: values.userName,
+            firstName: splitAtFirstSpace(values.fullName)[0],
+            lastName: splitAtFirstSpace(values.fullName)[1],
+            email: values.email,
+            password: values.password,
+            confirmPassword: values.confirmPassword
+            
+        });
     }
 
     return (

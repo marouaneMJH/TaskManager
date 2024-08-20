@@ -1,4 +1,5 @@
-"use client";
+// "use client";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -12,7 +13,9 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+// import User from "@/Interfaces/User";
+import axios from "@/api/axios";
 
 const signInSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -26,6 +29,14 @@ const signInSchema = z.object({
 });
 
 const SignIn = () => {
+    const [submitted, setSubmitted] = useState<boolean>(false);
+    const [redirectTo, setRedirectTo] = useState<string>("auth/sign-in");
+    const [redirect, setRedirect] = useState<boolean>(false);
+    const [formData, setFormData] = useState<{
+        email: string;
+        password: string;
+    }>({ email: "", password: "" });
+
     const form = useForm<z.infer<typeof signInSchema>>({
         resolver: zodResolver(signInSchema),
         defaultValues: {
@@ -34,8 +45,34 @@ const SignIn = () => {
         },
     });
 
+    useEffect(() => {
+        async function postData() {
+            console.log(formData);
+            if (submitted) {
+                try {
+                    const result =await axios.post("/auth/sign-in", formData);
+                    setRedirectTo(result.data);
+                    setRedirect(true);
+                    setSubmitted(false);
+                } catch (err) {
+                    console.error("Error");
+                }
+            }
+        }
+        postData();
+    }, [submitted]);
+
     function onSubmit(values: z.infer<typeof signInSchema>) {
-        console.log(values);
+        setFormData({
+            email: values.email,
+            password: values.password,
+        });
+        console.log("submitted");
+        setSubmitted(true);
+    }
+
+    if (redirect) {
+        return <Navigate to={redirectTo} />;
     }
 
     return (
@@ -85,11 +122,17 @@ const SignIn = () => {
                 </Button>
 
                 <div className="mt-4 text-center">
-                    <Link to="../sign-up" className="text-blue-600 hover:underline">
+                    <Link
+                        to="/sign-up"
+                        className="text-blue-600 hover:underline"
+                    >
                         Don't have an account? Sign Up
                     </Link>
                     <br />
-                    <Link to="/forgot-password" className="text-blue-600 hover:underline">
+                    <Link
+                        to="/forgot-password"
+                        className="text-blue-600 hover:underline"
+                    >
                         Forgot your password?
                     </Link>
                 </div>

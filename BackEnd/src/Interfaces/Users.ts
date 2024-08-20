@@ -5,5 +5,5 @@ export default interface User {
     lastName: string;
     email: string;
     passwordHash: string;
-    createdAt: Date;
+    createdAt?: Date;
 }
