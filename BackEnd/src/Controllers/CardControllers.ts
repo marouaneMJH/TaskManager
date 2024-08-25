@@ -1,6 +1,6 @@
 import db from "./../Config/PgConfig.js";
 
-export const getCardInfoById = async (id: number) => {
+export const getCardInfoById = async (id: string) => {
     const query = `
 SELECT 
     c."cardID",

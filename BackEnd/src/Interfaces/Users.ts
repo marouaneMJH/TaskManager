@@ -4,6 +4,6 @@ export default interface User {
     firstName: string;
     lastName: string;
     email: string;
-    passwordHash: string;
+    passwordHash?: string;
     createdAt?: Date;
 }

@@ -1,15 +1,17 @@
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
 import db from "../Config/PgConfig.js";
 import User from "../Interfaces/Users.js";
 import { passHash } from "../Controllers/HashPassword.js";
 import { createUserDB } from "../Controllers/AuthControler.js";
-
 export class UserModel {
     userID: number;
     username: string;
     firstName: string;
     lastName: string;
     email: string;
-    passwordHash: string;
+    passwordHash?: string;
     createdAt: Date;
 
     constructor(user: User) {
@@ -65,7 +67,10 @@ export class UserModel {
             if (result.rows.length === 0) {
                 return null;
             }
-            return result.rows[0] as User;
+            // return the user without password
+            const { passwordHash, ...data } = result.rows[0] as User;
+            return data;
+            
         } catch (err) {
             console.error("Error retrieving user by ID:", err);
             throw err;
@@ -145,12 +150,14 @@ export class UserModel {
                 return null;
             }
             const user = result.rows[0] as User;
-
-            if (user.passwordHash === passwordHash) {
-                // Use actual comparison in production
-                return user;
+            const validPassword = await bcrypt.compare(
+                passwordHash,
+                user.passwordHash
+            );
+            if (validPassword) {
+                const token = jwt.sign(user.userID, process.env.JWT_SECRET_KEY);
+                return token;
             }
-
             return null;
         } catch (err) {
             console.error("Error authenticating user:", err);

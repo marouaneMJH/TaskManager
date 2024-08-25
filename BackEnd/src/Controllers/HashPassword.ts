@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-// import env from "dotenv";
+
 export async function passHash(password: string): Promise<string> {
     try {
         const hashPassword = await bcrypt.hash(

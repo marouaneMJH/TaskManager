@@ -36,19 +36,21 @@ router.get("/cards/:id", async (req: Request, res: Response) => {
 });
 
 router.post("/addTask/:listID", async (req: Request, res: Response) => {
-    const listID = parseInt(req.params.listID); 
+    const listID = parseInt(req.params.listID);
     console.log("/addTask/:listID");
     try {
         if (!req.body.title) {
-            console.log("missing title"); 
+            console.log("missing title");
             return res.status(400).json({ message: "Missing title" });
         }
         await addNewCard(listID, req.body.title);
         return res.send("Task added successfully");
     } catch (error) {
-        console.log(error); 
+        console.log(error);
         return res.status(400).json({ message: "Failed to add task" });
     }
 });
+
+
 
 export default router;

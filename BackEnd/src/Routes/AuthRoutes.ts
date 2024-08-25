@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { z } from "zod";
+import jwt from "jsonwebtoken";
 import { signUpSchema, signInSchema } from "../Models/Schema.js";
 import { UserModel } from "../Models/User.js";
 const router = express.Router();
@@ -40,15 +41,52 @@ router.post("/auth/register", async (req: Request, res: Response) => {
         }
     }
 });
-
+// For sign-in and generate the token
 router.post("/auth/sign-in", async (req: Request, res: Response) => {
-    console.log(req.body);
     try {
         const validatedData = signInSchema.parse(req.body);
-         res.status(200).send("/dash-board");
+        const user = await UserModel.authenticate(
+            req.body.email,
+            req.body.password
+        );
+        if (user == null) {
+            res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        res.cookie("jwt", user, {
+            httpOnly: true,
+            maxAge: 20 * 60 * 60 * 1000, //20 day
+        });
+        res.status(200).send({ message: "done" });
     } catch (error) {
         console.log("sign-inInvalid request:", error);
         res.status(400).json({ message: "Invalid request" });
     }
+});
+
+router.get("/user", async (req: Request, res: Response) => {
+    try {
+        const cookie = req.cookies["jwt"];
+
+        if (!cookie) {
+            return res.status(401).send("Unauthorized: No token provided");
+        }
+
+        const claim = jwt.verify(cookie, process.env.JWT_SECRET_KEY as string);
+
+        if (claim) {
+            return res.send(claim);
+        } else {
+            return res.status(401).send("Unauthorized: Invalid token");
+        }
+    } catch (err) {
+        return res.status(400).send("Something went wrong: " + err.message);
+    }
+});
+
+// for logout and destroy the token 
+router.post("/auth/log-out", async (req: Request, res: Response) => {
+    res.cookie("jwt", { maxAge: 0 });
+    res.status(200).send({ message: "cookie removed  successfully" });
 });
 export default router;
