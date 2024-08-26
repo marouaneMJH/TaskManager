@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Link, Navigate } from "react-router-dom";
-// import User from "@/Interfaces/User";
 import axios from "@/api/axios";
 
 const signInSchema = z.object({
@@ -46,20 +45,33 @@ const SignIn = () => {
     });
 
     useEffect(() => {
-        async function postData() {
-            console.log(formData);
+        // async function postData() {
+        //     console.log(formData);
+        //     if (submitted) {
+        //         try {
+        //             const result =await axios.post("/auth/sign-in", formData);
+        //             setRedirectTo(result.data);
+        //             setRedirect(true);
+        //             setSubmitted(false);
+        //         } catch (err) {
+        //             console.error("Error");
+        //         }
+        //     }
+        // }
+        // postData();
+        (async () => {
             if (submitted) {
                 try {
-                    const result =await axios.post("/auth/sign-in", formData);
+                    const result = await axios.post("/auth/sign-in", formData);
                     setRedirectTo(result.data);
                     setRedirect(true);
-                    setSubmitted(false);
+                    // setSubmitted(false);
+                    console.log("submited after send the request")
                 } catch (err) {
                     console.error("Error");
                 }
             }
-        }
-        postData();
+        })();
     }, [submitted]);
 
     function onSubmit(values: z.infer<typeof signInSchema>) {

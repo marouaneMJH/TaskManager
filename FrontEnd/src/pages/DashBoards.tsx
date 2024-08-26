@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import axios from "@/api/axios";
 import { Link } from "react-router-dom";
 import Header from "../components/ui/Header";
 import { IoMdPerson } from "react-icons/io";

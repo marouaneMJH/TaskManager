@@ -18,7 +18,7 @@ const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
-        req.body.user= decoded; // reset the user info for  future usage 
+        req.body.userID= decoded; // reset the user info for  future usage 
         next(); 
     } catch (err) {
         return res.status(403).send("Forbidden: Invalid token");

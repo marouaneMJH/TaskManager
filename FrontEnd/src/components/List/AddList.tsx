@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import axios from "axios";
+import axios from "@/api/axios";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import {

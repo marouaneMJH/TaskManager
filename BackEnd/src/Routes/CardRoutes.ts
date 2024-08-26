@@ -10,7 +10,7 @@ const router = express.Router();
 router.get("/task/:id", async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const cardInfo = await getCardInfoById(id);
+        const cardInfo = await getCardInfoById(id,req.body.userID);
 
         if (cardInfo.length === 0) {
             return res.status(404).json({ message: "Card not found" });
@@ -27,7 +27,7 @@ router.get("/cards/:id", async (req: Request, res: Response) => {
     const listID = parseInt(req.params.id);
 
     try {
-        const result = await getCardsByListId(listID);
+        const result = await getCardsByListId(req.body.userID, listID);
         res.status(200).json(result);
     } catch (error) {
         console.error("Error fetching cards:", error);
@@ -43,14 +43,12 @@ router.post("/addTask/:listID", async (req: Request, res: Response) => {
             console.log("missing title");
             return res.status(400).json({ message: "Missing title" });
         }
-        await addNewCard(listID, req.body.title);
+        await addNewCard(req.body.userID, listID, req.body.title);
         return res.send("Task added successfully");
     } catch (error) {
         console.log(error);
         return res.status(400).json({ message: "Failed to add task" });
     }
 });
-
-
 
 export default router;

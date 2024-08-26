@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/lists", async (req: Request, res: Response) => {
     try {
-        const result = await getListInfos();
+        const result = await (req.body.userId);
         res.status(200).json(result);
     } catch (error) {
         console.error("Error fetching list information:", error);

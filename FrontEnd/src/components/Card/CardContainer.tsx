@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import axios from "@/api/axios";
 import Card from "./Card";
 import AddCard from "./AddCard";
 
