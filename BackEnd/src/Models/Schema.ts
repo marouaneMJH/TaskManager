@@ -50,3 +50,13 @@ export const signInSchema = z.object({
             "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
         ),
 });
+
+export const textInputSchema = z
+    .string()
+    .regex(/^[a-zA-Z0-9\s]+$/, "Invalid characters in input");
+
+export const TitleInputSchema = z
+    .string()
+    .min(1, "Input cannot be empty")
+    .max(255, "Input is too long")
+    .regex(/^[a-zA-Z0-9\s]+$/, "Invalid characters in input");

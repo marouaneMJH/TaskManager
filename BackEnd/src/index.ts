@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser"
 import cardRoutes from "./Routes/CardRoutes.js";
 import listRoutes from "./Routes/ListRoutes.js";
 import authRoutes from "./Routes/AuthRoutes.js";
+import boardRoutes from "./Routes/BoardRouter.js";
 import db from "./Config/PgConfig.js";
 import authenticateJWT from "./Middleware/AuthenticateJWT.js";
 
@@ -37,7 +38,7 @@ app.use(authenticateJWT);
 db.connect();
 
 // Routes
-app.use("/", authRoutes, cardRoutes, listRoutes);
+app.use("/", authRoutes, boardRoutes,cardRoutes, listRoutes);
 
 app.get("/404", (req: Request, res: Response) => {
     res.status(404).sendFile(path.join(__dirname, "./../Public", "error.html"));
