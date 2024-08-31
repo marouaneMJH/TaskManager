@@ -42,7 +42,7 @@ router.put("/list/:listID", async (req: Request, res: Response) => {
     const { listName, userID } = req.body;
 
     if (!listName)
-        return res.status(400).send({ message: "Board name is required" });
+        return res.status(400).send({ message: "List name is required" });
 
     try {
         await editList(listID, listName, userID);
